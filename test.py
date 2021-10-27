@@ -8,6 +8,16 @@ import datasets
 from datasets import StaticRandomCrop,StaticCenterCrop
 
 
+try:
+    from networks.resample2d_package.resample2d import Resample2d
+    from networks.channelnorm_package.channelnorm import ChannelNorm
+    from networks.correlation_package.correlation import Correlation
+except:
+    from .networks.resample2d_package.resample2d import Resample2d
+    from .networks.channelnorm_package.channelnorm import ChannelNorm
+    from networks.correlation_package.correlation import Correlation
+
+
 def run_test(rgb_max = 255):
   
     device = torch.device('cuda')
