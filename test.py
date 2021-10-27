@@ -22,5 +22,5 @@ def run_test(rgb_max = 255):
     print(input_re_1.grad.data)
     print(input_re_2.grad.data)
   
- if __name__ == '__main__':
+if __name__ == '__main__':
     run_test()
