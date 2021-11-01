@@ -1,0 +1,36 @@
+import torch
+import numpy as np
+import torch.nn as nn
+from torch.autograd import Variable,Function
+
+import utils.frame_utils as frame_utils
+import datasets
+from datasets import StaticRandomCrop,StaticCenterCrop
+
+
+try:
+    from networks.resample2d_package.resample2d import Resample2d
+    from networks.channelnorm_package.channelnorm import ChannelNorm
+    from networks.correlation_package.correlation import Correlation
+except:
+    from .networks.resample2d_package.resample2d import Resample2d
+    from .networks.channelnorm_package.channelnorm import ChannelNorm
+    from networks.correlation_package.correlation import Correlation
+
+
+def run_test(rgb_max = 255):
+  
+    device = torch.device('cuda')
+    input_re_1 = Variable(torch.from_numpy(np.array(np.arange(0,1*2*3*4),np.float32)).resize(1,2,3,4),requires_grad=True)
+    input_re_2 = Variable(torch.from_numpy(np.array(np.arange(0,1*2*3*4),np.float32)).resize(1,2,3,4),requires_grad=True)
+    input_re_1 = input_re_1.to(device)
+    input_re_2 = input_re_2.to(device)
+    correlation_op = Correlation(3,3,20,1,2).cuda()
+    output = correlation_op(input_re_1, input_re_2)
+    output.backward(torch.ones(output.size()).cuda())
+    print('result after bacward')
+    print(input_re_1.grad.data)
+    print(input_re_2.grad.data)
+  
+if __name__ == '__main__':
+    run_test()
