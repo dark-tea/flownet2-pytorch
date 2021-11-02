@@ -28,7 +28,8 @@ def run_test(rgb_max = 255):
    correlation_op = Correlation(pad_size=20, kernel_size=1, max_displacement=20, stride1=1, stride2=2,
                                   corr_multiply=1)
    output = correlation_op(input_re_1, input_re_2)
-   print(output)
+   ouputRe = output.resize(441*3*4)
+   print(ouputRe)
    output.backward(torch.ones(output.size()).cuda())
    print('result after bacward')
    print(input_re_1.grad.data)
